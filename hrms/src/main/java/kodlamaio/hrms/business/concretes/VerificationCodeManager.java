@@ -25,7 +25,7 @@ public class VerificationCodeManager implements VerificationCodeService {
 	}
 
 	@Override
-	public Result Add(VerificationCode code) {
+	public Result add(VerificationCode code) {
 		this.verificationCodeDao.save(code);
 		return new SuccessResult("Verification Code has been added.");
 	}

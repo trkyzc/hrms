@@ -19,6 +19,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.core.utilities.verification.VerificationService;
 import kodlamaio.hrms.entities.concretes.Candidate;
 import kodlamaio.hrms.entities.concretes.Employer;
+import kodlamaio.hrms.entities.concretes.VerificationCode;
 
 @Service
 public class AuthManager implements AuthService {
@@ -44,6 +45,11 @@ public class AuthManager implements AuthService {
 	
 	@Override
 	public Result registerEmployer(Employer employer, String confirmPassword) {
+		if (!checkIfNullInfoForEmployer(employer)) {
+
+			return new ErrorResult("You have entered missing information. Please fill in all fields.");
+		}
+		
 		if (!eMailRequired(employer.getEmail())) {
 
 			return new ErrorResult("Invalid email address.");
@@ -59,11 +65,19 @@ public class AuthManager implements AuthService {
 			return new ErrorResult("Passwords do not match.");
 		}
 		
+		employerService.add(employer);
+		String code = verificationService.sendCode();
+		verificationCodeRecord(code, employer.getId(), employer.getEmail());
 		return new SuccessResult("Registration has been successfully completed");
 	}
 
 	@Override
 	public Result registerCandidate(Candidate candidate, String confirmPassword) {
+		if (!checkIfNullInfoForJobseeker(candidate, confirmPassword)) {
+
+			return new ErrorResult("You have entered missing information. Please fill in all fields.");
+		}
+		
 		if (!checkIfExistsTcNo(candidate.getNationalId())) {
 
 			return new ErrorResult(candidate.getNationalId() + " already exists.");
@@ -79,8 +93,12 @@ public class AuthManager implements AuthService {
 			return new ErrorResult("TCKN could not be verified.");
 		}
 		
+		candidateService.add(candidate);
+		String code = verificationService.sendCode();
+		verificationCodeRecord(code, candidate.getId(), candidate.getEmail());
 		return new SuccessResult("Registration has been successfully completed");
 	}
+	
 	
 	public static boolean eMailRequired(String eMail) {
 		
@@ -127,6 +145,40 @@ public class AuthManager implements AuthService {
 		}
 		return false;
 	}
+	
+	private boolean checkIfNullInfoForEmployer(Employer employer) {
+
+		if (employer.getCompanyName() != null && employer.getWebsite() != null && employer.getEmail() != null
+				&& employer.getPhoneNumber() != null && employer.getPassword() != null) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+	
+	private boolean checkIfNullInfoForJobseeker(Candidate candidate, String confirmPassword) {
+
+		if (candidate.getFirstName() != null && candidate.getLastName() != null && candidate.getNationalId() != null
+				&& candidate.getDateOfBirth() != null && candidate.getPassword() != null && candidate.getEmail() != null
+				&& confirmPassword != null) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+	
+	private void verificationCodeRecord(String code, int id, String email) {
+		
+		VerificationCode verificationCode = new VerificationCode(id, code, false);
+		this.verificationCodeService.add(verificationCode);
+		System.out.println("Verification code has been sent to " + email );
+	
+	}
+
 	
 	
 
