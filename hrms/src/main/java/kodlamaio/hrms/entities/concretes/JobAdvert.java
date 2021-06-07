@@ -78,21 +78,5 @@ public class JobAdvert {
 	@JoinColumn(name = "city_id")
 	private City city;
 	
-	public JobAdvert(int id, String description, int salaryMin, int salaryMax, int openPositionCount,
-			LocalDate deadline, LocalDate publishedAt, boolean isOpen, JobPosition jobPosition, Employer employer,
-			City city) {
-		super();
-		this.id = id;
-		this.description = description;
-		this.salaryMin = salaryMin;
-		this.salaryMax = salaryMax;
-		this.openPositionCount = openPositionCount;
-		this.deadline = deadline;
-		this.publishedAt = publishedAt;
-		this.isOpen = isOpen;
-		this.jobPosition = jobPosition;
-		this.employer = employer;
-		this.city = city;
-	}
 
 }

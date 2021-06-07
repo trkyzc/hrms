@@ -44,11 +44,5 @@ public class JobPosition {
 	@OneToMany(mappedBy = "jobPosition")
 	private List<JobAdvert> jobAdverts;
 	
-	public JobPosition(int id, String jobTitle, List<JobAdvert> jobAdverts) { //Sıkıntı olabilir.
-		super();
-		this.id = id;
-		this.jobTitle = jobTitle;
-		this.jobAdverts = jobAdverts;
-	} 
 
 }

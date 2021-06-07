@@ -41,13 +41,14 @@ public class VerificationCode {
 	
 	@Column(name= "is_deleted", columnDefinition = "boolean default false") 
 	private boolean isDeleted = false;
-
-	public VerificationCode(int userId, String code, boolean isConfirmed) { //Sıkıntı olabilir.
+	
+	public VerificationCode(int userId, String code, boolean isConfirmed) { 
 		super();
 		this.userId = userId;
 		this.code = code;
 		this.isConfirmed = isConfirmed;
 		
 	}
+
 
 }

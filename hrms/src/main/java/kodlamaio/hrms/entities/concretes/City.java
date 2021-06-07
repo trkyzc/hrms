@@ -41,12 +41,7 @@ public class City {
 	@Column(name= "is_deleted", columnDefinition = "boolean default false") 
 	private boolean isDeleted = false;
 
-	public City(int id, String name, List<JobAdvert> jobAdverts) { //burada sıkıntı olabilir.
-		super();
-		this.id = id;
-		this.name = name;
-		this.jobAdverts = jobAdverts;
-	}
+	
 	
 
 }

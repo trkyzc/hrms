@@ -14,6 +14,7 @@ import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Candidate;
+import kodlamaio.hrms.entities.dtos.CandidateCVDto;
 
 @RestController
 @RequestMapping("/api/candidates")
@@ -52,6 +53,11 @@ public class CandidatesController {
 	public DataResult<List<Candidate>> getAll(){
 		
 		return this.candidateService.getAll();
+	}
+	
+	@GetMapping("/getCandidateCVById")
+	public DataResult<CandidateCVDto> getJobseekerCVById(@RequestParam int id){
+		return this.candidateService.getCandidateCVById(id);
 	}
 	
 	
